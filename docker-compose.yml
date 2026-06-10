@@ -1,0 +1,65 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: microwallet_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html # Монтируем код с хоста в контейнер (hot-reload)
+    networks:
+      - microwallet_net
+    depends_on:
+      db:
+        condition: service_healthy # Ждем, пока БД не станет "healthy"
+
+  db:
+    image: mysql:8.4 # Актуальная LTS версия MySQL
+    container_name: microwallet_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: microwallet
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root_secret
+    ports:
+      - "3306:3306" # Доступ к БД с хост-машины (для IDE, например, DataGrip)
+    volumes:
+      - mysql_data:/var/lib/mysql # Сохраняем данные БД между перезапусками
+    networks:
+      - microwallet_net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "laravel", "-psecret"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Сервис для запуска тестов в изолированном окружении
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: microwallet_test
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - microwallet_net
+    depends_on:
+      db:
+        condition: service_healthy
+    # Переопределяем env переменные специально для тестов
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: microwallet_test
+      DB_USERNAME: laravel
+      DB_PASSWORD: secret
+
+volumes:
+  mysql_data: # Именованный том для сохранения данных БД
+
+networks:
+  microwallet_net:
+    driver: bridge
