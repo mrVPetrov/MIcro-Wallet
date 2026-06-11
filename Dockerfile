@@ -25,4 +25,5 @@ WORKDIR /var/www/html
 COPY . .
 
 # Настройка прав для storage и bootstrap/cache (важно для Laravel)
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache

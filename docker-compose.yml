@@ -15,7 +15,7 @@ services:
         condition: service_healthy # Ждем, пока БД не станет "healthy"
 
   db:
-    image: mysql:8.4 # Актуальная LTS версия MySQL
+    image: mysql:8.4
     container_name: microwallet_db
     restart: unless-stopped
     environment:
