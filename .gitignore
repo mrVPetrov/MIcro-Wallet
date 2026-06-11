@@ -1,72 +1,27 @@
-# ==========================================
-# 1. Laravel Core (Стандартные правила)
-# ==========================================
-/vendor/
-/node_modules/
+*.log
+.DS_Store
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/.codex
+/.cursor/
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/auth.json
+/node_modules
+/public/build
+/public/fonts-manifest.dev.json
 /public/hot
 /public/storage
 /storage/*.key
-/storage/logs/laravel.log
-/storage/framework/views/
-/storage/framework/cache/data/
-/storage/framework/sessions/
-.env
-.env.backup
-.env.php
-.env.*.local
-.phpunit.result.cache
+/storage/pail
+/vendor
+_ide_helper.php
 Homestead.json
 Homestead.yaml
-npm-debug.log
-yarn-error.log
-
-# ==========================================
-# 2. Docker (Специфика контейнеризации)
-# ==========================================
-# Мы коммитим Dockerfile и docker-compose.yml, 
-# но игнорируем локальные переопределения и временные файлы
-docker-compose.override.yml
-.docker/
-*.pid
-*.seed
-*.pid.lock
-
-# ==========================================
-# 3. IDE и Редакторы кода
-# ==========================================
-.idea/
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-*.swp
-*.swo
-*~
-.project
-.classpath
-.settings/
-
-# ==========================================
-# 4. Операционные системы
-# ==========================================
-.DS_Store
-.AppleDouble
-.LSOverride
 Thumbs.db
-ehthumbs.db
-Desktop.ini
-
-# ==========================================
-# 5. CI/CD и Инструменты анализа (Артефакты)
-# ==========================================
-# Если PHPStan или PHPUnit будут генерировать отчеты локально
-/build/
-/coverage/
-.phpstan.cache/
-
-# ==========================================
-# 6. Frontend сборка (если будете использовать Vite)
-# ==========================================
-/public/build/
-/public/mix-manifest.json
