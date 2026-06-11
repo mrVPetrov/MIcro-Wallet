@@ -14,6 +14,20 @@ services:
       db:
         condition: service_healthy # Ждем, пока БД не станет "healthy"
 
+  nginx:
+    image: nginx:alpine
+    container_name: microwallet_nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80" # На вашем компьютере порт 8000 будет вести на порт 80 в Nginx
+    volumes:
+      - ./:/var/www/html # Монтируем код
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf # Монтируем конфиг
+    depends_on:
+      - app
+    networks:
+      - microwallet_net
+
   db:
     image: mysql:8.4
     container_name: microwallet_db
